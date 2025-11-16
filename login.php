@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/php/helpers.php';
 
+
 // Start session if not already started
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -27,7 +28,8 @@ if (isset($_SESSION['user_id'])) {
 $loginErrors = $_SESSION['login_errors'] ?? [];
 $registerSuccess = $_SESSION['auth_success'] ?? null;
 
-renderHead('Login | PhoneFix+');
+renderHead('Shop Accessories | Reboot');
+renderNav();
 // REMOVE renderNav();
 // Instead add custom nav below for full-width navbar with bg
 ?>
@@ -117,7 +119,7 @@ body, html {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(180deg, #10161d 70%, #076054 100%);
+    background: linear-gradient(180deg,rgb(7, 7, 7) 30%, #00ff6a 100%);
 }
 .container.auth-grid {
     display: grid;
@@ -239,22 +241,7 @@ body, html {
 </style>
 
 <!-- Custom NAVBAR to match the background and the sample image 3 -->
-<nav class="top-navbar">
-  <div class="navbar-container">
-    <span class="logo">PhoneFix<span>+</span></span>
-    <div class="nav-links">
-      <a href="index.php">Home</a>
-      <a href="services.php">Services</a>
-      <a href="shop.php">Shop</a>
-      <a href="reviews.php">Reviews</a>
-      <a href="booking.php">Book Repair</a>
-      <a href="contact.php">Contact</a>
-      <a href="cart.php">Cart</a>
-      <a href="login.php" class="active">Login</a>
-    </div>
-    <a href="register.php" class="btn-signup">Sign Up</a>
-  </div>
-</nav>
+
 
 <main class="page auth-page">
     <section class="container auth-grid">
@@ -275,7 +262,7 @@ body, html {
             <p class="auth-switch">New here? <a href="register.php">Create an account</a>.</p>
         </div>
         <div class="auth-side card">
-            <h2>PhoneFix+</h2>
+            <h2>Reboot</h2>
             <p>Manage your repair bookings, checkout faster, and access exclusive accessories curated for your device.</p>
         </div>
     </section>

@@ -33,7 +33,7 @@ foreach ($products as &$product) {
 }
 unset($product);
 
-renderHead('Shop Accessories | PhoneFix+');
+renderHead('Shop Accessories | Reboot');
 renderNav();
 renderFlashMessages([
     'cart_success' => 'success',

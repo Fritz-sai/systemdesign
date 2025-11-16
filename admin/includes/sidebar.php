@@ -83,52 +83,93 @@ require_once __DIR__ . '/functions.php';
 (function () {
   'use strict';
 
-  var btn = document.getElementById('sidebarToggle');
-  var sidebar = document.getElementById('adminSidebar');
-  var overlay = document.getElementById('adminSidebarOverlay');
+  // Wait for DOM to be fully ready
+  function initSidebar() {
+    var btn = document.getElementById('sidebarToggle');
+    var sidebar = document.getElementById('adminSidebar');
+    var overlay = document.getElementById('adminSidebarOverlay');
 
-  if (!btn || !sidebar || !overlay) return;
-
-  function showSidebar() {
-    sidebar.classList.add('show');
-    sidebar.setAttribute('aria-hidden', 'false');
-    overlay.classList.add('show');
-    overlay.setAttribute('aria-hidden', 'false');
-    btn.setAttribute('aria-expanded', 'true');
-    document.documentElement.style.overflow = 'hidden';
-  }
-
-  function hideSidebar() {
-    sidebar.classList.remove('show');
-    sidebar.setAttribute('aria-hidden', 'true');
-    overlay.classList.remove('show');
-    overlay.setAttribute('aria-hidden', 'true');
-    btn.setAttribute('aria-expanded', 'false');
-    document.documentElement.style.overflow = '';
-  }
-
-  function toggleSidebar() {
-    if (sidebar.classList.contains('show')) hideSidebar();
-    else showSidebar();
-  }
-
-  btn.addEventListener('click', function (e) {
-    e.preventDefault();
-    toggleSidebar();
-  });
-
-  overlay.addEventListener('click', function () {
-    hideSidebar();
-  });
-
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && sidebar.classList.contains('show')) hideSidebar();
-  });
-
-  sidebar.addEventListener('focusout', function (e) {
-    if (!sidebar.contains(e.relatedTarget) && sidebar.classList.contains('show') && e.relatedTarget !== btn) {
-      hideSidebar();
+    if (!btn || !sidebar || !overlay) {
+      // Retry if elements aren't ready yet
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initSidebar);
+      }
+      return;
     }
-  });
+
+    // Remove any existing event listeners by cloning and replacing the button
+    var newBtn = btn.cloneNode(true);
+    btn.parentNode.replaceChild(newBtn, btn);
+    btn = newBtn;
+
+    function showSidebar() {
+      sidebar.classList.add('show');
+      sidebar.setAttribute('aria-hidden', 'false');
+      overlay.classList.add('show');
+      overlay.setAttribute('aria-hidden', 'false');
+      btn.setAttribute('aria-expanded', 'true');
+      document.documentElement.style.overflow = 'hidden';
+      // Ensure inline styles don't override
+      sidebar.style.transform = '';
+    }
+
+    function hideSidebar() {
+      sidebar.classList.remove('show');
+      sidebar.setAttribute('aria-hidden', 'true');
+      overlay.classList.remove('show');
+      overlay.setAttribute('aria-hidden', 'true');
+      btn.setAttribute('aria-expanded', 'false');
+      document.documentElement.style.overflow = '';
+      // Ensure inline styles don't override
+      sidebar.style.transform = '';
+    }
+
+    function toggleSidebar(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      if (sidebar.classList.contains('show')) {
+        hideSidebar();
+      } else {
+        showSidebar();
+      }
+    }
+
+    // Use capture phase to ensure our handler runs first
+    btn.addEventListener('click', toggleSidebar, true);
+
+    overlay.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      hideSidebar();
+    }, true);
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && sidebar.classList.contains('show')) {
+        e.preventDefault();
+        hideSidebar();
+      }
+    });
+
+    // Prevent focusout from closing when clicking inside sidebar
+    sidebar.addEventListener('focusout', function (e) {
+      setTimeout(function() {
+        if (!sidebar.contains(document.activeElement) && 
+            document.activeElement !== btn && 
+            sidebar.classList.contains('show') &&
+            !overlay.contains(document.activeElement)) {
+          hideSidebar();
+        }
+      }, 10);
+    });
+  }
+
+  // Initialize immediately if DOM is ready, otherwise wait
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSidebar);
+  } else {
+    initSidebar();
+  }
 })();
 </script>

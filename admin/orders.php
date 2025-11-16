@@ -184,6 +184,7 @@ if ($params) {
 			background: transparent;
 		}
 		.btn.btn-primary {
+			margin-top: 18px;
 			background: linear-gradient(90deg,#21fc89 20%,#13c37a 100%);
 			color: #011;
 			text-shadow: 0 0 4px #21fc8955;
@@ -304,10 +305,10 @@ if ($params) {
 	<div class="section-header">
 		<h2>Orders</h2>
 		<form class="search-row" method="get">
-			<label>From <input class="input" type="date" name="from" value="<?php echo htmlspecialchars($dateFrom ?? ''); ?>"></label>
-			<label>To <input class="input" type="date" name="to" value="<?php echo htmlspecialchars($dateTo ?? ''); ?>"></label>
-			<button class="btn btn-primary" type="submit"><i class="fa-solid fa-filter"></i> Filter</button>
-			<a class="btn" href="/systemFinals/admin/orders.php">Reset</a>
+			<label>From <input class="input" style="width: 80%;" type="date" name="from" value="<?php echo htmlspecialchars($dateFrom ?? ''); ?>"></label>
+			<label>To <input class="input" style="width: 80%;" type="date" name="to" value="<?php echo htmlspecialchars($dateTo ?? ''); ?>"></label>
+			<button class="btn btn-primary" style="margin-top: 18px;" type="submit"><i class="fa-solid fa-filter"></i> Filter</button>
+			<a class="btn btn-outline" style="margin-top: 18px;" href="/systemFinals/admin/orders.php">Reset</a>
 		</form>
 	</div>
 

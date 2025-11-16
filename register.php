@@ -9,7 +9,7 @@ if (isset($_SESSION['user_id'])) {
 $errors = $_SESSION['register_errors'] ?? [];
 $old = $_SESSION['old_input'] ?? [];
 
-renderHead('Register | PhoneFix+');
+renderHead('Register | Reboot');
 renderNav();
 renderFlashMessages([
     'register_errors' => 'error'

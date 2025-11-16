@@ -10,7 +10,7 @@ $services = [
     ['title' => 'Software Optimization', 'description' => 'Speed tune-ups, data backup, and malware removal.', 'price' => 49.99]
 ];
 
-renderHead('Services | PhoneFix+');
+renderHead('Services | Reboot');
 ?>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
@@ -179,7 +179,7 @@ body {
     font-weight: 700;
     text-decoration: none;
     letter-spacing: 0.012em;
-    margin-top: 1.25rem;
+
     transition: background 0.16s, color 0.16s, border-color 0.16s;
     cursor: pointer;
     outline: none;

@@ -111,7 +111,7 @@ if ($productId > 0) {
     if ($distResult) $distResult->close();
 }
 
-renderHead('Product Reviews | PhoneFix+');
+renderHead('Product Reviews | Reboot');
 renderNav();
 renderFlashMessages([
     'review_success' => 'success',

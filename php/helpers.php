@@ -24,7 +24,7 @@ function renderNav(): void
     }
     echo '<header class="navbar">
         <div class="container nav-container">
-            <div class="logo"><a href="index.php">PhoneFix+</a></div>
+            <div class="logo"><a href="index.php">Reboot</a></div>
             <nav>
                 <ul class="nav-links">
                     <li><a href="index.php">Home</a></li>
@@ -68,13 +68,13 @@ function renderFooter(): void
     echo '<footer class="footer">
         <div class="container footer-content">
             <div>
-                <h3>PhoneFix+</h3>
+                <h3>Reboot</h3>
                 <p>Reliable phone repairs and the latest accessories to keep you connected.</p>
             </div>
             <div>
                 <h4>Contact</h4>
-                <p>Email: support@phonefixplus.com</p>
-                <p>Phone: +1 (555) 987-6543</p>
+                <p>Email: reboot@gmail.com</p>
+                <p>Phone: 09663978744</p>
             </div>
             <div>
                 <h4>Follow Us</h4>
@@ -85,26 +85,25 @@ function renderFooter(): void
                 </div>
             </div>
         </div>
-        <p class="footer-copy">&copy; ' . date('Y') . ' PhoneFix+. All rights reserved.</p>
+        <p class="footer-copy">&copy; ' . date('Y') . ' Reboot. All rights reserved.</p>
     </footer>
     <div id="chatbot" class="chatbot">
         <div class="chatbot-header">
-            <h4>PhoneFix+ Assistant</h4>
+            <h4>Reboot Assistant</h4>
             <button id="chatbot-close" aria-label="Close chatbot">&times;</button>
         </div>
-        <div class="chatbot-body">
-            <p>Hello! Need help booking a repair or finding accessories? Ask me anything.</p>
-            <ul>
-                <li>"How do I book a repair?"</li>
-                <li>"Show me screen protectors."</li>
-            </ul>
-        </div>
-        <div class="chatbot-input">
-            <input type="text" placeholder="Type your question..." aria-label="Chatbot input" />
-            <button>Send</button>
+        <div class="chatbot-body" id="chatbot-body">
+            <div class="chat-message bot-message">
+                <div class="message-content">
+                    <p>Hello! 👋 I\'m here to help. What can I assist you with today?</p>
+                </div>
+            </div>
+            <div class="chat-choices" id="chat-choices">
+                <!-- Choices will be dynamically generated here -->
+            </div>
         </div>
     </div>
-    <button id="chatbot-toggle" class="chatbot-toggle" aria-label="Open chatbot">Chat with us</button>
+    <button id="chatbot-toggle" class="chatbot-toggle" aria-label="Open chatbot"><span>Chat with us</span></button>
 </body>
 </html>';
 }

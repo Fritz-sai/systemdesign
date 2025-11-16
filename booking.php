@@ -3,13 +3,17 @@ require_once __DIR__ . '/php/helpers.php';
 
 $old = $_SESSION['booking_old'] ?? [];
 
-renderHead('Book a Repair | PhoneFix+');
+renderHead('Book a Repair | Reboot');
 renderNav();
 renderFlashMessages([
     'booking_success' => 'success',
     'booking_errors' => 'error'
 ]);
 ?>
+<link rel="stylesheet" href="css/header.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+</style>
 
 <main class="page">
     <section class="page-header">

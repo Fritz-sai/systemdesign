@@ -37,7 +37,7 @@ $result = $stmt->get_result();
 $orders = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
 $stmt->close();
 
-renderHead('My Orders | PhoneFix+');
+renderHead('My Orders | Reboot');
 renderNav();
 renderFlashMessages([
     'cart_success' => 'success',

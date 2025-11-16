@@ -42,7 +42,7 @@ $res = $stmt->get_result();
 $notifications = $res ? $res->fetch_all(MYSQLI_ASSOC) : [];
 $stmt->close();
 
-renderHead('Inbox | PhoneFix+');
+renderHead('Inbox | Reboot');
 renderNav();
 ?>
 <style>

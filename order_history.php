@@ -40,7 +40,7 @@ $result = $stmt->get_result();
 $orders = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
 $stmt->close();
 
-renderHead('Order History | PhoneFix+');
+renderHead('Order History | Reboot');
 renderNav();
 renderFlashMessages([
     'cart_success' => 'success',

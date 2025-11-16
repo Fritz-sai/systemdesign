@@ -15,7 +15,7 @@ if ($deliveryOption === 'delivery') {
 }
 $total = $subtotal + $shippingFee;
 
-renderHead('Your Cart | PhoneFix+');
+renderHead('Your Cart | Reboot');
 renderNav();
 renderFlashMessages([
     'cart_success' => 'success',
@@ -137,6 +137,7 @@ body {
     padding: 6px 1.1rem;
     transition: background 0.16s, color 0.14s;
     background: #181a1b;
+    border: 1px solid #09b95b;
 }
 .continue-shopping:hover {
     background: #00ff6a20;
@@ -426,17 +427,17 @@ body {
                                     </div>
                                 </td>
                                 <td class="cart-price">
-                                    <div class="price-amount">₱<?php echo number_format((float) $item['price'], 2); ?></div>
+                                    <div class="price-amount" data-price="<?php echo (float) $item['price']; ?>">₱<?php echo number_format((float) $item['price'], 2); ?></div>
                                 </td>
                                 <td class="cart-quantity">
                                     <form action="php/handle_cart.php" method="POST" class="quantity-form">
                                         <input type="hidden" name="action" value="update">
                                         <input type="hidden" name="product_id" value="<?php echo (int) $item['product_id']; ?>">
-                                        <input type="number" name="quantity" value="<?php echo (int) $item['quantity']; ?>" min="1" class="quantity-input" onchange="this.form.submit()">
+                                        <input type="number" name="quantity" value="<?php echo (int) $item['quantity']; ?>" min="1" class="quantity-input" data-product-id="<?php echo (int) $item['product_id']; ?>">
                                     </form>
                                 </td>
                                 <td class="cart-total-cell">
-                                    <span class="item-total">₱<?php echo number_format($itemTotal, 2); ?></span>
+                                    <span class="item-total" data-product-id="<?php echo (int) $item['product_id']; ?>">₱<?php echo number_format($itemTotal, 2); ?></span>
                                     <form action="php/handle_cart.php" method="POST" class="remove-form">
                                         <input type="hidden" name="action" value="remove">
                                         <input type="hidden" name="product_id" value="<?php echo (int) $item['product_id']; ?>">
@@ -527,10 +528,61 @@ document.addEventListener('DOMContentLoaded', () => {
     const checkoutShippingFee = document.getElementById('checkout-shipping-fee');
     const checkoutTotal = document.getElementById('checkout-total');
 
-    // Get subtotal from the displayed value
+    // Get subtotal by calculating from all items
+    function calculateSubtotal() {
+        let subtotal = 0;
+        const quantityInputs = document.querySelectorAll('.quantity-input');
+        
+        quantityInputs.forEach(input => {
+            const productId = input.dataset.productId;
+            const quantity = parseInt(input.value) || 1;
+            
+            // Find the price for this item
+            const row = input.closest('tr');
+            const priceEl = row.querySelector('.price-amount');
+            const price = parseFloat(priceEl.dataset.price) || 0;
+            
+            subtotal += price * quantity;
+        });
+        
+        return subtotal;
+    }
+
+    // Get subtotal from the displayed value (fallback)
     function getSubtotal() {
+        const calculated = calculateSubtotal();
+        if (calculated > 0) return calculated;
+        
         const subtotalText = subtotalEl.textContent.replace('₱', '').replace(/,/g, '');
         return parseFloat(subtotalText) || 0;
+    }
+
+    // Update item total when quantity changes
+    function updateItemTotal(inputElement) {
+        const row = inputElement.closest('tr');
+        const priceEl = row.querySelector('.price-amount');
+        const itemTotalEl = row.querySelector('.item-total');
+        const productId = inputElement.dataset.productId;
+        const quantity = parseInt(inputElement.value) || 1;
+        
+        const price = parseFloat(priceEl.dataset.price) || 0;
+        const itemTotal = price * quantity;
+        
+        if (itemTotalEl) {
+            itemTotalEl.textContent = '₱' + itemTotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+        
+        // Update subtotal and grand total
+        updateSubtotalAndTotal();
+    }
+
+    // Update subtotal and grand total
+    function updateSubtotalAndTotal() {
+        const subtotal = calculateSubtotal();
+        subtotalEl.textContent = '₱' + subtotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        
+        // Update shipping and total
+        updateShippingAndTotal();
     }
 
     function updateShippingAndTotal() {
@@ -598,6 +650,47 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 deliveryForm.submit();
             }, 100);
+        });
+    });
+
+    // Handle quantity changes
+    const quantityInputs = document.querySelectorAll('.quantity-input');
+    quantityInputs.forEach(input => {
+        let timeout;
+        input.addEventListener('input', function() {
+            const quantity = parseInt(this.value) || 1;
+            
+            // Ensure minimum quantity
+            if (quantity < 1) {
+                this.value = 1;
+            }
+            
+            // Update item total immediately
+            updateItemTotal(this);
+            
+            // Debounce form submission
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                this.closest('form').submit();
+            }, 800); // Submit after 800ms of no changes
+        });
+        
+        // Also handle onchange (when user clicks away or uses arrow keys)
+        input.addEventListener('change', function() {
+            let quantity = parseInt(this.value) || 1;
+            
+            // Ensure minimum quantity
+            if (quantity < 1) {
+                this.value = 1;
+                quantity = 1;
+            }
+            
+            // Update item total
+            updateItemTotal(this);
+            
+            // Submit form to update session
+            clearTimeout(timeout);
+            this.closest('form').submit();
         });
     });
 

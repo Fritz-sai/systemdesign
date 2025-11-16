@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
-renderHead('Contact Us | PhoneFix+');
+renderHead('Contact Us | Reboot');
 renderNav();
 renderFlashMessages([
     'contact_success' => 'success',
@@ -245,7 +245,7 @@ body {
             <h3>Visit Us</h3>
             <p>123 Mobile Ave, Suite 200<br>San Francisco, CA 94107</p>
             <h3>Support</h3>
-            <p>Email: support@phonefixplus.com<br>Phone: +1 (555) 987-6543</p>
+            <p>Email: reboot@gmail.com<br>Phone: 09663978744</p>
             <h3>Hours</h3>
             <p>Mon - Sat: 9:00 AM - 7:00 PM<br>Sun: 10:00 AM - 5:00 PM</p>
         </div>

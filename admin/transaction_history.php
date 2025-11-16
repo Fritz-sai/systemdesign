@@ -342,10 +342,10 @@ $totalRevenue = array_sum(array_column($orders, 'total'));
 				<option value="bookings" <?php echo $type==='bookings'?'selected':''; ?>>Bookings Only</option>
 				<option value="orders" <?php echo $type==='orders'?'selected':''; ?>>Orders Only</option>
 			</select>
-			<label>From <input class="input" type="date" name="from" value="<?php echo htmlspecialchars($dateFrom ?? ''); ?>"></label>
-			<label>To <input class="input" type="date" name="to" value="<?php echo htmlspecialchars($dateTo ?? ''); ?>"></label>
-			<button class="btn btn-primary" type="submit"><i class="fa-solid fa-filter"></i> Filter</button>
-			<a class="btn" href="transaction_history.php">Reset</a>
+			<label>From <input class="input" style="width: 80%;" type="date" name="from" value="<?php echo htmlspecialchars($dateFrom ?? ''); ?>"></label>
+			<label>To <input class="input" style="width: 80%;" type="date" name="to" value="<?php echo htmlspecialchars($dateTo ?? ''); ?>"></label>
+			<button class="btn btn-primary" style="margin-top: 18px; width: 100px;" type="submit"><i class="fa-solid fa-filter"></i> Filter</button>
+			<a class="btn btn-outline" style="margin-top: 18px;" href="transaction_history.php">Reset</a>
 		</form>
 	</div>
 
